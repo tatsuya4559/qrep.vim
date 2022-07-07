@@ -20,9 +20,17 @@ export def Qrep(...args: list<string>)
   if IsJobRunning()
     job->job_stop()
   endif
+
+  var query: string
+  if args[0] == ''
+    query = expand('<cword>')
+  else
+    query = args->join(' ')
+  endif
+
   setqflist([])
   job = job_start(
-    printf('%s %s', &grepprg, args->join(' ')),
+    printf('%s %s', &grepprg, query),
     { out_cb: OutHandler, in_io: 'null' }
   )
   copen
