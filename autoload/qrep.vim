@@ -1,40 +1,29 @@
 vim9script
 
-# TODO: buffering
-
-var buf: list<string> = []
-
-def BufferWrite(line: string)
-  buf->add(line)
-  if len(buf) > 10000
-    BufferFlush()
-  endif
-enddef
-
-def BufferFlush()
-  setqflist([], 'a', {lines: buf, efm: '%f:%l:%c:%m'})
-  buf = []
-enddef
+var job: job
 
 def OutHandler(ch: channel, msg: string)
-  # caddexpr msg
-  BufferWrite(msg)
+  caddexpr msg
 enddef
 
-def CloseHandler(ch: channel)
-  BufferFlush()
+def IsJobRunning(): bool
+  if job == null
+    return false
+  endif
+  if job->job_status() ==# 'run'
+    return true
+  endif
+  return false
 enddef
 
-
-# TODO: ctrl-c to stop job
 export def Qrep(...args: list<string>)
+  if IsJobRunning()
+    job->job_stop()
+  endif
   setqflist([])
-  var job = job_start(
-    printf('git grep -n %s', args->join(' ')),
-    {
-      out_cb: OutHandler,
-      close_cb: CloseHandler,
-    }
+  job = job_start(
+    printf('%s %s', &grepprg, args->join(' ')),
+    { out_cb: OutHandler, in_io: 'null' }
   )
+  copen
 enddef
-
