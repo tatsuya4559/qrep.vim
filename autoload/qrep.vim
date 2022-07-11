@@ -2,7 +2,7 @@ vim9script
 
 var job: job
 
-def OutHandler(ch: channel, msg: string)
+def OutHandler(ch: channel, msg: string): void
   caddexpr msg
 enddef
 
