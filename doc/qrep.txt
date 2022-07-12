@@ -1,0 +1,67 @@
+*qrep.txt*	Simple asynchronous grep in vim9script
+
+Version : 0.1.0
+Author  : tatsuya4559
+License : MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+==============================================================================
+CONTENTS					*qrep-contents*
+
+INTRODUCTION			|qrep-introduction|
+USAGE				|qrep-usage|
+  COMMANDS			  |qrep-commands|
+CHANGELOG			|qrep-changelog|
+
+
+==============================================================================
+INTRODUCTION					*qrep-introduction*
+
+*qrep* is a Vim plugin which executes grep asynchronously.
+
+Latest version:
+https://github.com/tatsuya4559/qrep.vim
+
+
+==============================================================================
+USAGE						*qrep-usage*
+
+Just do `:Qrep word` to grep "word"!
+
+To customize grep tool, you can set |grepprg|.
+>
+	set grepprg=git\ grep\ -n
+<
+
+------------------------------------------------------------------------------
+COMMANDS					*qrep-commands*
+
+:Qrep [args]					*:Qrep*
+Without any args, qrep searches the word under the cursor.
+
+
+==============================================================================
+CHANGELOG					*qrep-changelog*
+
+0.1.0	2022-07-06
+	- Init.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:
