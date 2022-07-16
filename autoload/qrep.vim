@@ -1,37 +1,35 @@
-vim9script
+let s:job = 0
 
-var job: job
+function! s:out_handler(ch, msg) abort
+  caddexpr a:msg
+endfunction
 
-def OutHandler(ch: channel, msg: string): void
-  caddexpr msg
-enddef
-
-def IsJobRunning(): bool
-  if job == null
-    return false
+function! s:is_job_running() abort
+  if s:job == 0
+    return v:false
   endif
-  if job->job_status() ==# 'run'
-    return true
+  if s:job->job_status() ==# 'run'
+    return v:true
   endif
-  return false
-enddef
+  return v:false
+endfunction
 
-export def Qrep(...args: list<string>)
-  if IsJobRunning()
-    job->job_stop()
+function! qrep#qrep(...) abort
+  if s:is_job_running()
+    call s:job->job_stop()
   endif
 
-  var query: string
+  let args = a:000
   if args[0] == ''
-    query = expand('<cword>')
+    let query = expand('<cword>')
   else
-    query = args->join(' ')
+    let query = args->join(' ')
   endif
 
-  setqflist([])
-  job = job_start(
-    printf('%s %s', &grepprg, query),
-    { out_cb: OutHandler, in_io: 'null' }
-  )
+  call setqflist([])
+  let s:job = job_start(
+        \ printf('%s %s', &grepprg, query),
+        \ #{ out_cb: function('s:out_handler'), in_io: 'null' }
+        \ )
   copen
-enddef
+endfunction

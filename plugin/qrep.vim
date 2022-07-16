@@ -1,10 +1,12 @@
-vim9script
+let s:save_cpo = &cpoptions
+set cpoptions&vim
 
 if exists('g:loaded_qrep')
   finish
 endif
-g:loaded_qrep = 1
+let g:loaded_qrep = 1
 
-import autoload 'qrep.vim'
+command! -nargs=* Qrep call qrep#qrep(<q-args>)
 
-command! -nargs=* Qrep qrep.Qrep(<q-args>)
+let &cpoptions = s:save_cpo
+unlet s:save_cpo
